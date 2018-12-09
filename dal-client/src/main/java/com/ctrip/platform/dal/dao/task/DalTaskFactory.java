@@ -19,14 +19,20 @@ public interface DalTaskFactory extends DalComponent {
 	<T> SingleTask<T> createSingleDeleteTask(DalParser<T> parser);
 
 	<T> SingleTask<T> createSingleUpdateTask(DalParser<T> parser);
+
+	<T> SingleTask<T> createSingleReplaceTask(DalParser<T> parser);
 	
 	<T> BulkTask<Integer, T> createCombinedInsertTask(DalParser<T> parser);
+
+	<T> BulkTask<Integer, T> createCombinedReplaceTask(DalParser<T> parser);
 	
 	<T> BulkTask<int[], T> createBatchInsertTask(DalParser<T> parser);
 
 	<T> BulkTask<int[], T> createBatchDeleteTask(DalParser<T> parser);
 
 	<T> BulkTask<int[], T> createBatchUpdateTask(DalParser<T> parser);
+
+	<T> BulkTask<int[],T> createBatchReplaceTask(DalParser<T> parser);
 	
 	<T> DeleteSqlTask<T> createDeleteSqlTask(DalParser<T> parser);
 	

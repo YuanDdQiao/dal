@@ -33,6 +33,15 @@ public class DefaultTaskFactory implements DalTaskFactory {
 	}
 
 	@Override
+	public <T> SingleTask<T> createSingleReplaceTask(DalParser<T> parser) {
+		if (DatabaseCategory.MySql != getDbCategory(parser))
+			return null;
+		SingleReplaceTask<T> singleReplaceTask = new SingleReplaceTask<>();
+		singleReplaceTask.initialize(parser);
+		return singleReplaceTask;
+	}
+
+	@Override
 	public <T> SingleTask<T> createSingleDeleteTask(DalParser<T> parser) {
 		SingleDeleteTask<T> singleDeleteTask = new SingleDeleteTask<T>();
 		singleDeleteTask.initialize(parser);
@@ -60,10 +69,30 @@ public class DefaultTaskFactory implements DalTaskFactory {
 	}
 
 	@Override
+	public <T> BulkTask<Integer, T> createCombinedReplaceTask(DalParser<T> parser) {
+		if (DatabaseCategory.MySql != getDbCategory(parser))
+			return null;
+
+		CombinedReplaceTask combinedReplaceTask = new CombinedReplaceTask();
+		combinedReplaceTask.initialize(parser);
+		return combinedReplaceTask;
+	}
+
+	@Override
 	public <T> BulkTask<int[], T> createBatchInsertTask(DalParser<T> parser) {
 		BatchInsertTask<T> batchInsertTask = new BatchInsertTask<T>();
 		batchInsertTask.initialize(parser);
 		return batchInsertTask;
+	}
+
+	@Override
+	public <T> BulkTask<int[], T> createBatchReplaceTask(DalParser<T> parser) {
+		if (DatabaseCategory.MySql != getDbCategory(parser))
+			return null;
+
+		BatchReplaceTask<T> batchReplaceTask = new BatchReplaceTask<T>();
+		batchReplaceTask.initialize(parser);
+		return batchReplaceTask;
 	}
 
 	@Override

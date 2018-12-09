@@ -567,22 +567,27 @@ public class DalDirectClient implements DalContextClient {
 
     private List<Map<String, Object>> getFinalGeneratedKeys(List<Map<String, Object>> dbReturnedKeyFields,
                                                             List<Map<String, Object>> presetKeyFields) {
-        if (null == dbReturnedKeyFields || null == presetKeyFields ||
-                dbReturnedKeyFields.size() != presetKeyFields.size()) {
+        if (null == presetKeyFields || presetKeyFields.size() == 0)
             return dbReturnedKeyFields;
-        }
+
         List<Map<String, Object>> returnedKeyFields = new ArrayList<>();
-        for (int i = 0; i < dbReturnedKeyFields.size(); i++) {
-            Map<String, Object> dbReturnedKeyField = dbReturnedKeyFields.get(i);
+        if (null == dbReturnedKeyFields || dbReturnedKeyFields.size() == 0) {
+            returnedKeyFields.addAll(presetKeyFields);
+            return returnedKeyFields;
+        }
+
+        Map<String, Object> dbReturnedKeyField = dbReturnedKeyFields.get(0);
+        String keyName = dbReturnedKeyField.keySet().iterator().next();
+        Object dbReturnedKey = dbReturnedKeyField.values().iterator().next();
+        Class<?> clazz = dbReturnedKey.getClass();
+
+        for (int i = 0; i < presetKeyFields.size(); i++) {
             Map<String, Object> presetKeyField = presetKeyFields.get(i);
-            if (dbReturnedKeyField.size() != 1) {
-                return dbReturnedKeyFields;
-            }
-            Object dbReturnedKey = dbReturnedKeyField.values().iterator().next();
-            String keyName = dbReturnedKeyField.keySet().iterator().next();
+//            if (dbReturnedKeyField.size() != 1) {
+//                return dbReturnedKeyFields;
+//            }
             Number presetKey = (Number) presetKeyField.values().iterator().next();
-            Object returnedKey = dbReturnedKey;
-            Class<?> clazz = dbReturnedKey.getClass();
+            Object returnedKey = presetKey;
             if (clazz.equals(Byte.class) || clazz.equals(byte.class)) {
                 returnedKey = presetKey.byteValue();
             } else if (clazz.equals(Short.class) || clazz.equals(short.class)) {

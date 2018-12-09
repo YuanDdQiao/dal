@@ -271,6 +271,10 @@ public class LogEntry implements ILogEntry{
 		return source;
 	}
 
+	public void setSource(String source) {
+		this.source = source;
+	}
+
 	public String getDataBaseKeyName() {
 		return dataBaseKeyName;
 	}

@@ -22,8 +22,6 @@ import com.ctrip.platform.dal.sharding.idgen.NullIdGenerator;
 import static com.ctrip.platform.dal.dao.helper.DalShardingHelper.getDatabaseSet;
 
 public class InsertTaskAdapter<T> extends TaskAdapter<T> {
-	public static final String TMPL_SQL_INSERT = "INSERT INTO %s (%s) VALUES(%s)";
-
 	protected Set<String> insertableColumns;
 	protected Set<String> notInsertableColumns;
 	protected String columnsForInsert;
